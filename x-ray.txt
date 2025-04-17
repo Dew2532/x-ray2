@@ -1,0 +1,54 @@
+import { useState, useEffect } from 'react'; import { Button } from "@/components/ui/button"; import { Card, CardContent } from "@/components/ui/card";
+
+const images = [ { src: '/xray-normal.jpg', answer: 'clear', }, { src: '/xray-suspicious.jpg', answer: 'dangerous', }, { src: '/xray-knife.jpg', answer: 'dangerous', }, ];
+
+export default function XrayTrainer() { const [step, setStep] = useState<'start' | 'quiz' | 'result' | 'gameover'>('start'); const [index, setIndex] = useState(0); const [selected, setSelected] = useState<string | null>(null); const [score, setScore] = useState(0); const [timeLeft, setTimeLeft] = useState(60); const [rounds, setRounds] = useState(0);
+
+useEffect(() => { let timer: NodeJS.Timeout; if (step === 'quiz' && timeLeft > 0) { timer = setTimeout(() => setTimeLeft(t => t - 1), 1000); } else if (timeLeft === 0) { setStep('gameover'); } return () => clearTimeout(timer); }, [step, timeLeft]);
+
+const startQuiz = () => { setScore(0); setRounds(0); setTimeLeft(60); setStep('quiz'); nextImage(); };
+
+const nextImage = () => { const next = Math.floor(Math.random() * images.length); setIndex(next); setSelected(null); setRounds(r => r + 1); };
+
+const submitAnswer = () => { if (selected === images[index].answer) { setScore(s => s + 1); } nextImage(); };
+
+return ( <div className="p-4 max-w-xl mx-auto"> {step === 'start' && ( <div className="text-center"> <h1 className="text-2xl font-bold mb-4">เกมฝึกตรวจ X-ray (โหมด 60 วินาที)</h1> <Button onClick={startQuiz}>เริ่มเกม</Button> </div> )}
+
+{step === 'quiz' && (
+    <div>
+      <div className="flex justify-between text-sm mb-2">
+        <span>คะแนน: {score}</span>
+        <span>เวลา: {timeLeft}s</span>
+      </div>
+      <Card>
+        <CardContent className="p-4">
+          <img src={images[index].src} alt="xray" className="w-full h-auto rounded-xl border" />
+        </CardContent>
+      </Card>
+      <div className="mt-4 flex gap-4 justify-center">
+        <Button variant={selected === 'clear' ? 'default' : 'outline'} onClick={() => setSelected('clear')}>ปลอดภัย</Button>
+        <Button variant={selected === 'dangerous' ? 'default' : 'outline'} onClick={() => setSelected('dangerous')}>มีวัตถุต้องสงสัย</Button>
+      </div>
+      <div className="mt-4 text-center">
+        <Button onClick={submitAnswer} disabled={!selected}>ถัดไป</Button>
+      </div>
+    </div>
+  )}
+
+  {step === 'gameover' && (
+    <div className="text-center">
+      <h2 className="text-xl font-semibold mb-2">หมดเวลา!</h2>
+      <p className="mb-2">คุณตรวจไปทั้งหมด {rounds} ภาพ</p>
+      <p className="mb-4">ตรวจถูกต้อง {score} ภาพ</p>
+      <Button onClick={startQuiz}>เริ่มใหม่</Button>
+    </div>
+  )}
+</div>
+
+); }
+
+git init
+git remote add origin https://github.com/yourname/xray-training-app.git
+git add .
+git commit -m "initial"
+git push -u origin main

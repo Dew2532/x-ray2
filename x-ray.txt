@@ -48,7 +48,7 @@ return ( <div className="p-4 max-w-xl mx-auto"> {step === 'start' && ( <div clas
 ); }
 
 git init
-git remote add origin https://github.com/yourname/xray-training-app.git
+git remote add origin https://github.com/yourname/xray2.git
 git add .
 git commit -m "initial"
 git push -u origin main

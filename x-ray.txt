@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'; import { Button } from "@/components/ui/button"; import { Card, CardContent } from "@/components/ui/card";
+8import { useState, useEffect } from 'react'; import { Button } from "@/components/ui/button"; import { Card, CardContent } from "@/components/ui/card";
 
 const images = [ { src: '/xray-normal.jpg', answer: 'clear', }, { src: '/xray-suspicious.jpg', answer: 'dangerous', }, { src: '/xray-knife.jpg', answer: 'dangerous', }, ];
 
@@ -48,7 +48,7 @@ return ( <div className="p-4 max-w-xl mx-auto"> {step === 'start' && ( <div clas
 ); }
 
 git init
-git remote add origin https://github.com/yourname/xray2.git
+git remote add origin https://github.com/xray2.git
 git add .
 git commit -m "initial"
 git push -u origin main
